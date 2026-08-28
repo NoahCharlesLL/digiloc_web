@@ -1,0 +1,104 @@
+[
+  {
+    "id": "cologne_cathedral",
+    "name": "Cologne Cathedral Dome",
+    "subtitle": "Historical Landmark · Cologne, Germany",
+    "city": "Cologne",
+    "address": "Domkloster 4, 50667 Köln",
+    "phone": "+49 221 17940 0",
+    "lat": 50.9413,
+    "lng": 6.9583,
+    "setting": "indoor",
+    "about": "One of Germany's most iconic landmarks, the Cologne Cathedral is a UNESCO World Heritage Site and a stunning example of Gothic architecture. Its twin spires dominate the Cologne skyline and make it a highly sought-after filming location for period dramas, commercials, and international productions.",
+    "general": "Open year-round. Film permits required and must be arranged through the Cologne Film Commission. Early morning slots (5–8am) are available for exterior shoots with minimal crowds. Interior shoots require special approval.",
+    "navigation": "Located in central Cologne, directly adjacent to Köln Hauptbahnhof. Accessible by U-Bahn (Dom/Hbf), S-Bahn, and regional trains. Parking available at Parkhaus Am Dom.",
+    "contact": "film@koeln-tourismus.de",
+    "amenities": ["toilet", "wifi", "power"],
+    "pois": [
+      {"type": "toilet", "label": "Public Restroom", "lat": 50.9417, "lng": 6.9578},
+      {"type": "wifi",   "label": "Free WiFi Zone",   "lat": 50.9410, "lng": 6.9590},
+      {"type": "power",  "label": "Power Connection",  "lat": 50.9415, "lng": 6.9588}
+    ]
+  },
+  {
+    "id": "maschinenhalle_zweckel",
+    "name": "Maschinenhalle Zweckel",
+    "subtitle": "Industrial Heritage · Gladbeck, Germany",
+    "city": "Gladbeck",
+    "address": "Lehmkuhlenweg 5, 45968 Gladbeck",
+    "phone": "+49 2043 2860",
+    "lat": 51.5697,
+    "lng": 6.9897,
+    "setting": "indoor",
+    "about": "A beautifully preserved former colliery machine hall, Maschinenhalle Zweckel combines industrial steel architecture with large open floor space and dramatic overhead lighting rigs already installed from past events. Its raw, atmospheric character makes it a favorite for music videos, fashion editorials, and period-industrial film scenes.",
+    "general": "Available for half-day and full-day bookings. The hall includes original machinery as set dressing. Power infrastructure for film equipment is already in place. Advance booking required via the Gladbeck cultural office.",
+    "navigation": "Located in the Zweckel district of Gladbeck, accessible via the A2 motorway (exit Gladbeck-Zweckel). Free on-site parking for crew vehicles. Closest train station is Gladbeck West, approx. 15 min by car.",
+    "contact": "kultur@gladbeck.de",
+    "amenities": ["toilet", "wifi", "power"],
+    "pois": [
+      {"type": "toilet", "label": "Public Restroom", "lat": 51.5699, "lng": 6.9892},
+      {"type": "wifi",   "label": "Free WiFi Zone",   "lat": 51.5695, "lng": 6.9901},
+      {"type": "power",  "label": "Power Connection",  "lat": 51.5698, "lng": 6.9903}
+    ],
+    "restricted_areas": [
+      {
+        "label": "No Access - Machinery Zone",
+        "points": [
+          [51.56985, 6.98955],
+          [51.56992, 6.98975],
+          [51.56978, 6.98995],
+          [51.56968, 6.98978]
+        ]
+      },
+      {
+        "label": "Building Footprint",
+        "points": [
+          [51.57000, 6.98920],
+          [51.57005, 6.99010],
+          [51.56950, 6.99020],
+          [51.56945, 6.98930]
+        ]
+      }
+    ]
+  },
+  {
+    "id": "duesseldorf_altstadt",
+    "name": "Düsseldorf Altstadt",
+    "subtitle": "Urban District · Düsseldorf, Germany",
+    "city": "Düsseldorf",
+    "address": "Altstadt, 40213 Düsseldorf",
+    "phone": "+49 211 17202 0",
+    "lat": 51.2217,
+    "lng": 6.7726,
+    "setting": "outdoor",
+    "about": "Known as the longest bar in the world, Düsseldorf's Altstadt is a vibrant historic district full of cobblestone streets, 17th-century buildings, and Rhine riverfront views. Ideal for contemporary urban shoots, music videos, and European lifestyle productions.",
+    "general": "Street shoots generally permitted without a full permit for small crews. Larger productions require coordination with the city. Best shot in early morning or late evening for atmosphere.",
+    "navigation": "Accessible via U-Bahn Heinrich-Heine-Allee. 10 min walk from Düsseldorf Hauptbahnhof. Limited parking — use Parkhaus Rathaus.",
+    "contact": "location@duesseldorf.de",
+    "amenities": ["wifi", "power"],
+    "pois": [
+      {"type": "wifi",   "label": "Free WiFi Zone",   "lat": 51.2215, "lng": 6.7730},
+      {"type": "power",  "label": "Power Connection",  "lat": 51.2222, "lng": 6.7733}
+    ]
+  },
+  {
+    "id": "phoenix_lake",
+    "name": "Phoenix Lake Dortmund",
+    "subtitle": "Industrial Landmark · Dortmund, Germany",
+    "city": "Dortmund",
+    "address": "Phoenixseeweg, 44263 Dortmund",
+    "phone": "+49 231 50 0",
+    "lat": 51.4764,
+    "lng": 7.5386,
+    "setting": "outdoor",
+    "about": "A former steel mill site transformed into a large artificial lake. The contrast between industrial heritage and modern waterfront architecture makes it ideal for dystopian, sci-fi, or contemporary drama productions.",
+    "general": "Outdoor shoots welcome. Drone-friendly zone with prior notification. No major permit needed for small crews.",
+    "navigation": "Bus line 444 from Dortmund Hauptbahnhof (approx. 20 min). By car via B54, parking at Phoenixsee Parkplatz.",
+    "contact": "location@dortmund.de",
+    "amenities": ["toilet", "power"],
+    "pois": [
+      {"type": "toilet", "label": "Public Restroom", "lat": 51.4767, "lng": 7.5380},
+      {"type": "power",  "label": "Power Connection",  "lat": 51.4770, "lng": 7.5395}
+    ]
+  }
+]
