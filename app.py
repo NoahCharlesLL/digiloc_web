@@ -8,12 +8,17 @@ from streamlit_folium import st_folium
 st.set_page_config(page_title="Digital Locations", layout="wide")
 
 DATA_DIR = Path(__file__).parent / "data"
-POI_COLORS = {"toilet": "#4FA8E0", "wifi": "#5BC27A", "power": "#E05B5B"}
+DRAWINGS_FILE = DATA_DIR / "area_drawings.json"
+
+POI_ICONS = {
+    "toilet": ("tint", "#4FA8E0"),
+    "wifi": ("wifi", "#5BC27A"),
+    "power": ("bolt", "#E05B5B"),
+}
 
 with open(DATA_DIR / "locations.json", encoding="utf-8") as f:
     locations = json.load(f)
 
-DRAWINGS_FILE = DATA_DIR / "area_drawings.json"
 if DRAWINGS_FILE.exists():
     with open(DRAWINGS_FILE, encoding="utf-8") as f:
         area_drawings = json.load(f)
@@ -59,7 +64,10 @@ elif st.session_state.page == "map":
             fill_opacity=1
         ).add_to(m)
 
-    map_data = st_folium(m, width=1200, height=600, key="overview_map")
+    map_data = st_folium(
+        m, width=1200, height=600, key="overview_map",
+        returned_objects=["last_object_clicked_tooltip"]
+    )
 
     if map_data.get("last_object_clicked_tooltip"):
         clicked = next(l for l in locations if l["name"] == map_data["last_object_clicked_tooltip"])
@@ -87,9 +95,9 @@ elif st.session_state.page == "detail":
         with col1:
             img_dir = DATA_DIR / "images" / loc["id"]
             if img_dir.exists():
-                imgs = [p for p in img_dir.iterdir() if p.suffix.lower() in [".jpg", ".jpeg", ".png"]]
-                for img in imgs:
-                    st.image(str(img), use_container_width=True)
+                for img in img_dir.iterdir():
+                    if img.suffix.lower() in [".jpg", ".jpeg", ".png"]:
+                        st.image(str(img), use_container_width=True)
             else:
                 st.write("No images found.")
         with col2:
@@ -112,8 +120,8 @@ elif st.session_state.page == "detail":
             st.markdown("---")
             edit_mode = st.toggle("✏ Edit Areas", key="edit_mode")
             if edit_mode:
-                shape_name = st.text_input("New shape name", key="shape_name_input")
-                shape_color = st.color_picker("New shape color", "#C9A84C", key="shape_color_input")
+                st.text_input("New shape name", key="shape_name_input")
+                st.color_picker("New shape color", "#C9A84C", key="shape_color_input")
 
         with col2:
             nav_map = folium.Map(location=[loc["lat"], loc["lng"]], zoom_start=16, tiles="OpenStreetMap")
@@ -125,10 +133,11 @@ elif st.session_state.page == "detail":
             ).add_to(nav_map)
 
             for poi in loc.get("pois", []):
-                folium.CircleMarker(
+                icon_name, color = POI_ICONS.get(poi["type"], ("map-marker", "#888"))
+                folium.Marker(
                     [poi["lat"], poi["lng"]],
-                    radius=6, color=POI_COLORS.get(poi["type"], "#888"),
-                    fill=True, fill_opacity=1, tooltip=poi["label"]
+                    tooltip=poi["label"],
+                    icon=folium.Icon(color="white", icon_color=color, icon=icon_name, prefix="fa")
                 ).add_to(nav_map)
 
             for area in loc.get("restricted_areas", []):
@@ -138,25 +147,35 @@ elif st.session_state.page == "detail":
                     tooltip=area["label"]
                 ).add_to(nav_map)
 
-            # Draw previously saved shapes with their own name/color
+            fg = folium.FeatureGroup(name="drawings")
             for shape in area_drawings.get(loc["id"], []):
                 if "type" not in shape:
                     continue
                 props = shape.get("properties", {})
+                name = props.get("name", "Unnamed")
+                color = props.get("color", "#C9A84C")
                 folium.GeoJson(
                     shape,
-                    tooltip=props.get("name", ""),
-                    style_function=lambda x, c=props.get("color", "#C9A84C"): {"color": c, "fillColor": c, "fillOpacity": 0.3}
-                ).add_to(nav_map)
+                    style_function=lambda x, c=color: {"color": c, "fillColor": c, "fillOpacity": 0.3},
+                    tooltip=name
+                ).add_to(fg)
+            fg.add_to(nav_map)
 
             if edit_mode:
-                Draw(export=False).add_to(nav_map)
+                Draw(
+                    export=False,
+                    draw_options={"circlemarker": False},
+                ).add_to(nav_map)
 
-            nav_map_data = st_folium(nav_map, width=900, height=550, key="nav_map")
+            return_objs = ["all_drawings"] if edit_mode else []
+            nav_map_data = st_folium(
+                nav_map, width=900, height=550, key="nav_map",
+                returned_objects=return_objs
+            )
 
             if edit_mode and nav_map_data.get("all_drawings"):
                 if st.button("💾 Save new shape"):
-                    new_shape = nav_map_data["all_drawings"][-1]  # latest drawn
+                    new_shape = nav_map_data["all_drawings"][-1]
                     new_shape["properties"] = {
                         "name": st.session_state.shape_name_input or "Unnamed",
                         "color": st.session_state.shape_color_input

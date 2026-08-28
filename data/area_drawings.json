@@ -1,1 +1,86 @@
-{}
+{
+  "maschinenhalle_zweckel": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "nice area",
+        "color": "#f300d5"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              6.984386,
+              51.570615
+            ],
+            [
+              6.984966,
+              51.568508
+            ],
+            [
+              6.98724,
+              51.569254
+            ],
+            [
+              6.984386,
+              51.570615
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Unnamed",
+        "color": "#C9A84C"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.987433,
+          51.570602
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "cool stuff",
+        "color": "#C9A84C"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              6.987283,
+              51.572029
+            ],
+            [
+              6.988699,
+              51.571268
+            ],
+            [
+              6.986082,
+              51.570708
+            ],
+            [
+              6.985502,
+              51.571922
+            ],
+            [
+              6.986039,
+              51.572362
+            ],
+            [
+              6.987283,
+              51.572029
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}
