@@ -1,15 +1,10 @@
 import streamlit as st
 from utils.data import load_locations, load_drawings
-from pages_app import splash, map_view, detail
+from utils.theme import inject_css
+from pages_app import splash, map_view, detail, about, topbar
 
 st.set_page_config(page_title="Digital Locations", layout="wide")
-
-st.markdown("""
-    <style>
-    .stApp { background-color: #1c1c1c; color: #E0E0E0; }
-    h1, h2, h3 { color: #C9A84C; }
-    </style>
-""", unsafe_allow_html=True)
+inject_css()
 
 locations = load_locations()
 area_drawings = load_drawings()
@@ -19,8 +14,15 @@ if "page" not in st.session_state:
 
 if st.session_state.page == "splash":
     splash.render()
-elif st.session_state.page == "map":
-    map_view.render(locations)
-elif st.session_state.page == "detail":
-    loc = next(l for l in locations if l["id"] == st.session_state.selected_location)
-    detail.render(loc, area_drawings)
+else:
+    topbar.render(show_back=(st.session_state.page != "map"))
+    if st.session_state.page == "map":
+        map_view.render(locations)
+    elif st.session_state.page == "detail":
+        loc = next(l for l in locations if l["id"] == st.session_state.selected_location)
+        st.session_state.back_target = "map"
+        detail.render(loc, area_drawings)
+    elif st.session_state.page == "about":
+        about.render()
+    elif st.session_state.page == "login":
+        st.info("Login coming soon.")

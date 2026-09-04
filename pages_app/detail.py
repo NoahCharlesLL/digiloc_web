@@ -6,13 +6,7 @@ from utils.data import DATA_DIR, POI_ICONS, save_drawings
 
 
 def render(loc, area_drawings):
-    top_col1, top_col2 = st.columns([1, 5])
-    with top_col1:
-        if st.button("← Back"):
-            st.session_state.page = "map"
-            st.rerun()
-    with top_col2:
-        st.subheader(loc["name"].upper())
+    st.subheader(loc["name"].upper())
 
     tab_info, tab_nav, tab_stage, tab_booking = st.tabs(["Info", "Navigation", "Stage", "Booking"])
 
