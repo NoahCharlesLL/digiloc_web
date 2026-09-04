@@ -19,4 +19,4 @@ def render(show_back=False):
             st.session_state.page = st.session_state.get("back_target", "map")
             st.rerun()
 
-    st.markdown("---")
+    st.markdown("<div class='dl-divider'></div>", unsafe_allow_html=True)

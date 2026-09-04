@@ -2,3 +2,5 @@
 pages_app/__pycache__/
 
 utils/__pycache__/
+
+pages_app/location_tabs/__pycache__/

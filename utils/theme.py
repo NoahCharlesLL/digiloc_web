@@ -25,7 +25,16 @@ def inject_css():
         }}
         header[data-testid="stHeader"] {{ background: transparent; }}
         #MainMenu, footer {{ visibility: hidden; }}
-        .block-container {{ padding-top: 1.5rem; max-width: 1300px; }}
+
+        .block-container {{
+            border-left: 3px solid {c['border']};
+            border-right: 3px solid {c['border']};
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+            padding-top: 0;
+            padding-bottom: 2rem;
+            max-width: 1300px;
+        }}
 
         .dl-label {{
             font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
@@ -38,7 +47,16 @@ def inject_css():
 
         h1, h2, h3 {{ color: {c['text']}; font-weight: 600; }}
 
-        hr, .dl-divider {{ border: none; border-top: 2px solid {c['border']}; margin: 1rem 0; }}
+        .dl-divider {{
+            border: none; border-top: 3px solid {c['border']};
+            margin: 0.8rem -1.5rem;
+        }}
+
+        .dl-vline {{
+            border-left: 3px solid {c['border']};
+            padding-left: 1.5rem;
+            margin-left: -1.5rem;
+        }}
 
         /* buttons: strong box, visible border */
         .stButton > button {{
@@ -66,25 +84,84 @@ def inject_css():
             background-color: {c['bg_panel']} !important;
             color: {c['text']} !important;
             border: 2px solid {c['border']} !important;
-            border-radius: 0px !important;
         }}
 
-        /* every panel/container = visible box */
         div[data-testid="stVerticalBlockBorderWrapper"] {{
             border: 2px solid {c['border']} !important;
-            border-radius: 0px !important;
             background-color: {c['bg_panel']};
         }}
 
-        .stTabs [data-baseweb="tab-list"] {{ gap: 0; border-bottom: 2px solid {c['border']}; }}
+        /* tabs: one full-width underline, active tab just colored */
+        .stTabs [data-baseweb="tab-list"] {{
+            gap: 1.5rem;
+            width: calc(100% + 3rem) !important;
+            margin-left: -1.5rem;
+            padding-left: 1.5rem;
+            border-bottom: 3px solid {c['border']} !important;
+        }}
         .stTabs [data-baseweb="tab"] {{
-            background: {c['bg_panel']}; color: {c['text_muted']};
-            font-family: {FONT_TITLE}; font-size: 12px; letter-spacing: 1px;
-            border: 2px solid {c['border']}; border-bottom: none;
+            background: transparent !important;
+            color: {c['text_muted']};
+            font-family: {FONT_TITLE}; font-size: 13px; letter-spacing: 1px;
+            border: none !important;
+            padding-bottom: 10px;
         }}
         .stTabs [aria-selected="true"] {{
             color: {c['accent']} !important;
-            border-color: {c['accent']} !important;
+        }}
+        .stTabs [data-baseweb="tab-highlight"],
+        .stTabs [data-baseweb="tab-border"] {{
+            display: none !important;
+            height: 0 !important;
+            background: transparent !important;
+        }}
+
+        /* force ALL corners square, no exceptions */
+        .stTextInput input, .stTextArea textarea,
+        .stMultiSelect > div, .stSelectbox > div,
+        .stButton > button, div[data-testid="stVerticalBlockBorderWrapper"] {{
+            border-radius: 0px !important;
+        }}
+
+        [data-baseweb="input"], [data-baseweb="textarea"], [data-baseweb="base-input"] {{
+            border-radius: 0px !important;
+        }}
+        [data-baseweb="input"] > div, [data-baseweb="textarea"] > div {{
+            border-radius: 0px !important;
+        }}
+        div[data-testid="stTextInput"] div,
+        div[data-testid="stTextArea"] div {{
+            border-radius: 0px !important;
+        }}
+        div[data-testid="stTextInput"] input {{
+            border-radius: 0px !important;
+        }}
+
+        /* vanilla calendar: st.container(key=) actually nests, so this works */
+        .st-key-dl_calendar {{
+            border: 2px solid {c['border']};
+        }}
+        .st-key-dl_calendar .stButton > button {{
+            border: none !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            border-radius: 0px !important;
+            width: 100%;
+            height: 40px;
+            font-size: 13px;
+            padding: 0;
+        }}
+        .st-key-dl_calendar .stButton > button:hover {{
+            background-color: {c['bg_panel']} !important;
+            color: {c['accent']} !important;
+        }}
+
+        /* full-bleed hr */
+        hr {{
+            border: none !important;
+            border-top: 3px solid {c['border']} !important;
+            margin: 0.8rem -1.5rem !important;
+            width: calc(100% + 3rem) !important;
         }}
         </style>
     """, unsafe_allow_html=True)
@@ -98,3 +175,6 @@ def label(text):
 
 def divider():
     st.markdown("<div class='dl-divider'></div>", unsafe_allow_html=True)
+
+def close_frame():
+    st.markdown("<div class='dl-divider' style='margin-top:2rem;'></div>", unsafe_allow_html=True)

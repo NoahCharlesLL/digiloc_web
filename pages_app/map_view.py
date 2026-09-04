@@ -44,6 +44,7 @@ def render(locations):
             st.session_state.view_mode = "map"
             st.rerun()
     with col2:
+        st.markdown("<div class='dl-vline'>", unsafe_allow_html=True)
         if st.button("☰ List View", type="primary" if st.session_state.view_mode == "list" else "secondary"):
             st.session_state.view_mode = "list"
             st.rerun()
