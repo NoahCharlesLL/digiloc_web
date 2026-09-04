@@ -1,8 +1,54 @@
 import streamlit as st
 import folium
+import datetime
+from utils.data import DATA_DIR
+import json
 from folium.plugins import Draw
 from streamlit_folium import st_folium
 from utils.data import DATA_DIR, POI_ICONS, save_drawings
+
+BOOKINGS_FILE = DATA_DIR / "bookings.json"
+
+def _load_bookings():
+    if BOOKINGS_FILE.exists():
+        with open(BOOKINGS_FILE, encoding="utf-8") as f:
+            return json.load(f)
+    return {}
+
+def _save_bookings(bookings):
+    with open(BOOKINGS_FILE, "w", encoding="utf-8") as f:
+        json.dump(bookings, f, indent=2)
+
+
+def _render_booking(loc):
+    col1, col2 = st.columns([2, 1])
+
+    with col1:
+        st.markdown("**Select dates**")
+        today = datetime.date.today()
+        date_options = [today + datetime.timedelta(days=i) for i in range(60)]
+        date_labels = [d.strftime("%a, %d %b %Y") for d in date_options]
+
+        selected_labels = st.multiselect("Available dates (next 60 days)", date_labels, key="booking_dates")
+
+    with col2:
+        st.markdown("**Your details**")
+        full_name = st.text_input("Full name", key="booking_name")
+        email = st.text_input("E-mail", key="booking_email")
+        message = st.text_area("Message", key="booking_message", height=150)
+
+        if st.button("Confirm booking", type="primary"):
+            if not selected_labels or not full_name or not email:
+                st.warning("Pick at least one date and fill in name + email.")
+            else:
+                bookings = _load_bookings()
+                entry = {
+                    "name": full_name, "email": email, "message": message,
+                    "dates": selected_labels,
+                }
+                bookings.setdefault(loc["id"], []).append(entry)
+                _save_bookings(bookings)
+                st.success(f"Booking request sent for {len(selected_labels)} date(s)!")
 
 
 def render(loc, area_drawings):
@@ -18,8 +64,7 @@ def render(loc, area_drawings):
         st.write("Unreal Engine launcher — coming soon.")
         st.write(f"Project file: {loc.get('unreal_project', 'N/A')}")
     with tab_booking:
-        st.write("Booking calendar & contact form — coming soon.")
-        st.markdown(f"**Contact:** {loc['contact']}")
+        _render_booking(loc)
 
 
 def _render_info(loc):

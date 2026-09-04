@@ -32,7 +32,6 @@ def _apply_filters(locations, search_text, active_filters):
 
 
 def render(locations):
-    st.header("DIGITAL LOCATIONS")
 
     if "view_mode" not in st.session_state:
         st.session_state.view_mode = "map"
