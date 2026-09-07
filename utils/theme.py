@@ -13,7 +13,7 @@ COLORS = {
 FONT_BODY = "'Segoe UI', sans-serif"
 FONT_TITLE = "'Consolas', monospace"
 
-
+#TODO
 def inject_css():
     c = COLORS
     st.markdown(f"""
@@ -24,6 +24,9 @@ def inject_css():
             font-family: {FONT_BODY};
         }}
         header[data-testid="stHeader"] {{ background: transparent; }}
+        #COMMENT IN IF YOU WANT TO REMOVE THE STREAMLIT HEADER
+        # [data-testid="stToolbar"] {{ display: none !important; }}
+        # [data-testid="stAppDeployButton"] {{ display: none !important; }}
         #MainMenu, footer {{ visibility: hidden; }}
 
         .block-container {{
@@ -31,7 +34,8 @@ def inject_css():
             border-right: 3px solid {c['border']};
             padding-left: 1.5rem;
             padding-right: 1.5rem;
-            padding-top: 0;
+            # For having it normal do this for the next line: padding-top: 0;
+            padding-top: 3.5rem !important;
             padding-bottom: 2rem;
             max-width: 1300px;
         }}
@@ -115,6 +119,17 @@ def inject_css():
             height: 0 !important;
             background: transparent !important;
         }}
+        
+        /* segmented control: connected tab buttons */
+        .st-key-dl_tabbar .stButton > button {{
+            border-radius: 0px !important;
+            white-space: nowrap;
+            font-size: 13px;
+            padding: 0.5rem 0.5rem;
+        }}
+        .st-key-dl_tabbar [data-testid="stColumn"]:not(:first-child) .stButton > button {{
+            border-left: none !important;
+        }}
 
         /* force ALL corners square, no exceptions */
         .stTextInput input, .stTextArea textarea,
@@ -162,6 +177,11 @@ def inject_css():
             border-top: 3px solid {c['border']} !important;
             margin: 0.8rem -1.5rem !important;
             width: calc(100% + 3rem) !important;
+        }}
+        /* auth buttons: connected segmented pair */
+        .st-key-dl_authbar div[data-testid="stHorizontalBlock"] {{ gap: 0 !important; }}
+        .st-key-dl_authbar [data-testid="stColumn"]:not(:first-child) .stButton > button {{
+            border-left: none !important;
         }}
         </style>
     """, unsafe_allow_html=True)

@@ -1,7 +1,7 @@
 import streamlit as st
 from utils.data import load_locations, load_drawings
 from utils.theme import inject_css, close_frame
-from pages_app import splash, map_view, detail, about, topbar
+from pages_app import splash, map_view, detail, about, topbar, login
 
 st.set_page_config(page_title="Digital Locations", layout="wide")
 inject_css()
@@ -15,7 +15,10 @@ if "page" not in st.session_state:
 if st.session_state.page == "splash":
     splash.render()
 else:
-    topbar.render(show_back=(st.session_state.page != "map"))
+    is_detail = st.session_state.page == "detail"
+    tab_options = ["Info", "Navigation", "Stage", "Booking"] if is_detail else None
+    topbar.render(show_back=(st.session_state.page != "map"), tab_options=tab_options)
+
     if st.session_state.page == "map":
         map_view.render(locations)
     elif st.session_state.page == "detail":
@@ -25,6 +28,6 @@ else:
     elif st.session_state.page == "about":
         about.render()
     elif st.session_state.page == "login":
-        st.info("Login coming soon.")
+        login.render()
 
 close_frame()
