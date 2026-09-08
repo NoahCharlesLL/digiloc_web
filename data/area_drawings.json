@@ -61,6 +61,16 @@
         6.987499791522379
       ],
       "markerType": "custom"
+    },
+    {
+      "kind": "marker",
+      "label": "New HEHE RED",
+      "color": "#FF0000",
+      "center": [
+        51.57269540923341,
+        6.985931396484376
+      ],
+      "markerType": "custom"
     }
   ]
 }

@@ -54,6 +54,7 @@ MAP_HTML_TEMPLATE = """
 </head>
 <body>
 <div id="map"></div>
+<button class="action-btn primary" id="editModeBtn" style="position:absolute; bottom:10px; right:14px; width:252px; z-index:1000;">✏️ Edit</button>
 <div id="panel">
   <label>Label</label>
   <input type="text" id="labelInput" value="New area"/>
@@ -72,7 +73,8 @@ MAP_HTML_TEMPLATE = """
   <button class="action-btn" id="cancelBtn">Cancel</button>
   <button class="action-btn primary" id="confirmBtn">Confirm</button>
 </div>
-<button class="action-btn primary" id="exportBtn" style="position:absolute; bottom:10px; right:14px; width:252px;">💾 Save</button>
+<button class="action-btn primary" id="exportBtn" style="position:absolute; bottom:56px; right:14px; width:252px; z-index:1000; display:none;">💾 Save</button>
+<button class="action-btn" id="cancelAllBtn" style="position:absolute; bottom:10px; right:14px; width:252px; z-index:1000; display:none;">✖ Cancel Edit</button>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
@@ -90,6 +92,12 @@ var drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
 
 function iconFor(type, color) {
+if (type === 'custom') {
+  return L.divIcon({
+    html: '<div style="width:20px;height:20px;border-radius:50%;background:'+color+';border:2px solid #fff;box-shadow:0 0 2px #000;"></div>',
+    className: '', iconSize:[24,24], iconAnchor:[12,12]
+  });
+}
   var emoji = {toilet:"🚻", wifi:"📶", power:"🔌", parking:"🅿️", food:"🍴", custom:"📍"}[type] || "📍";
   return L.divIcon({
     html: '<div style="font-size:22px; filter:drop-shadow(0 0 2px #000);">'+emoji+'</div>',
@@ -114,12 +122,67 @@ savedShapes.forEach(function(s) {
     drawnItems.addLayer(layer);
   }
 });
+map.whenReady(function() {
+  setTimeout(updateLabelVisibility, 0);
+});
 
 var drawControl = new L.Control.Draw({
   edit: { featureGroup: drawnItems },
   draw: { circlemarker: false }
 });
-map.addControl(drawControl);
+var editing = false;
+var originalShapesJSON = JSON.stringify(savedShapes);
+var ZOOM_LABEL_THRESHOLD = 15;
+
+function updateLabelVisibility() {
+  var show = map.getZoom() >= ZOOM_LABEL_THRESHOLD;
+  drawnItems.eachLayer(function(l) {
+    var tooltip = l.getTooltip();
+    if (!tooltip) return;
+    if (show) {
+      if (!map.hasLayer(tooltip)) l.openTooltip();
+    } else {
+      l.closeTooltip();
+    }
+  });
+}
+
+map.on('zoomend', updateLabelVisibility);
+
+function rebuildFromJSON(json) {
+  drawnItems.clearLayers();
+  JSON.parse(json).forEach(function(s) {
+    var layer;
+    if (s.kind === "marker") layer = L.marker(s.center, {icon: iconFor(s.markerType, s.color)});
+    else if (s.kind === "circle") layer = L.circle(s.center, {radius: s.radius, color: s.color, fillColor: s.color, fillOpacity:0.3});
+    else if (s.kind === "polygon") layer = L.polygon(s.points, {color: s.color, fillColor: s.color, fillOpacity:0.3});
+    else if (s.kind === "line") layer = L.polyline(s.points, {color: s.color});
+    if (layer) {
+      layer.shapeData = s;
+      if (s.label) layer.bindTooltip(s.label, {permanent:true});
+      drawnItems.addLayer(layer);
+    }
+  });
+}
+
+document.getElementById('editModeBtn').onclick = function() {
+  editing = true;
+  map.addControl(drawControl);
+  document.getElementById('editModeBtn').style.display = 'none';
+  document.getElementById('exportBtn').style.display = 'block';
+  document.getElementById('cancelAllBtn').style.display = 'block';
+};
+
+document.getElementById('cancelAllBtn').onclick = function() {
+  rebuildFromJSON(originalShapesJSON);
+  editing = false;
+  map.removeControl(drawControl);
+  document.getElementById('editModeBtn').style.display = 'block';
+  document.getElementById('exportBtn').style.display = 'none';
+  document.getElementById('cancelAllBtn').style.display = 'none';
+  panel.style.display = 'none';
+  currentLayer = null;
+};
 
 var panel = document.getElementById('panel');
 var labelInput = document.getElementById('labelInput');
