@@ -158,6 +158,7 @@ def inject_css():
         }}
         .st-key-dl_calendar .stButton > button {{
             border: none !important;
+            outline: none !important;
             background: transparent !important;
             box-shadow: none !important;
             border-radius: 0px !important;
@@ -165,12 +166,41 @@ def inject_css():
             height: 40px;
             font-size: 13px;
             padding: 0;
+            border-right: 1px solid rgba(255,255,255,0.08) !important;
+            border-bottom: 1px solid rgba(255,255,255,0.08) !important;
         }}
-        .st-key-dl_calendar .stButton > button:hover {{
-            background-color: {c['bg_panel']} !important;
-            color: {c['accent']} !important;
+        .st-key-dl_calendar .stButton > button:focus,
+        .st-key-dl_calendar .stButton > button:active {{
+            box-shadow: none !important;
+            outline: none !important;
         }}
-
+        .st-key-dl_calendar .stButton > button,
+        .st-key-dl_calendar .stButton > button:focus,
+        .st-key-dl_calendar .stButton > button:active,
+        .st-key-dl_calendar .stButton > button div[data-testid="stMarkdownContainer"] p {{
+            color: {c['text']} !important;
+        }}
+        .st-key-dl_calendar div[data-testid="stElementContainer"] {{
+            width: 100% !important;
+        }}
+        .st-key-dl_calendar .stButton {{
+            width: 100% !important;
+        }}
+        .stButton > button:has(div[data-testid="stMarkdownContainer"]) {{
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }}
+        .stButton > button div[data-testid="stMarkdownContainer"] {{
+            width: 100%;
+            text-align: center !important;
+        }}
+        .stButton > button div[data-testid="stMarkdownContainer"] p {{
+            text-align: center !important;
+            margin: 0 !important;
+            width: 100%;
+        }}
+        
         /* full-bleed hr */
         hr {{
             border: none !important;
