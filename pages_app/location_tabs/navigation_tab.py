@@ -132,7 +132,7 @@ var drawControl = new L.Control.Draw({
 });
 var editing = false;
 var originalShapesJSON = JSON.stringify(savedShapes);
-var ZOOM_LABEL_THRESHOLD = 15;
+var ZOOM_LABEL_THRESHOLD = 17;
 
 function updateLabelVisibility() {
   var show = map.getZoom() >= ZOOM_LABEL_THRESHOLD;

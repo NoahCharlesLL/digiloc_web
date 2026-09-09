@@ -1,7 +1,7 @@
 import streamlit as st
 from utils.data import load_locations, load_drawings
 from utils.theme import inject_css, close_frame
-from pages_app import splash, map_view, detail, about, topbar, login
+from pages_app import splash, map_view, detail, about, topbar, login, register
 
 st.set_page_config(page_title="Digital Locations", layout="wide")
 inject_css()
@@ -39,5 +39,7 @@ else:
         about.render()
     elif st.session_state.page == "login":
         login.render()
+    elif st.session_state.page == "register":
+        register.render()
 
 close_frame()
