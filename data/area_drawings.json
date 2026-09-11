@@ -83,6 +83,16 @@
         6.970213651657105
       ],
       "markerType": "toilet"
+    },
+    {
+      "kind": "marker",
+      "label": "Not wifi",
+      "color": "#D9A441",
+      "center": [
+        51.59435189232362,
+        6.966785788536073
+      ],
+      "markerType": "wifi"
     }
   ]
 }

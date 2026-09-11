@@ -1,0 +1,26 @@
+{
+  "maschinenhalle_zweckel": [
+    {
+      "name": "dsfasdf",
+      "email": "eeee",
+      "message": "afsdfasdf",
+      "dates": [
+        "2026-09-10",
+        "2026-09-11",
+        "2026-09-12",
+        "2026-09-13"
+      ]
+    },
+    {
+      "name": "dfasdf",
+      "email": "eeea",
+      "message": "dfa",
+      "dates": [
+        "2026-09-17",
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20"
+      ]
+    }
+  ]
+}

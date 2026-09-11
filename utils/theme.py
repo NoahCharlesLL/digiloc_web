@@ -37,7 +37,7 @@ def inject_css():
             # For having it normal do this for the next line: padding-top: 0;
             padding-top: 3.5rem !important;
             padding-bottom: 2rem;
-            max-width: 1300px;
+            max-width: 1800px;
         }}
 
         .dl-label {{
@@ -217,7 +217,7 @@ def inject_css():
     """, unsafe_allow_html=True)
 
 
-def title(text, size=26):
+def title(text, size):
     st.markdown(f"<div class='dl-title' style='font-size:{size}px;'>{text}</div>", unsafe_allow_html=True)
 
 def label(text):
